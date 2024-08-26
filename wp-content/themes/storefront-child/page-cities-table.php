@@ -1,32 +1,26 @@
 <?php
 /**
- * Template Name: Cities Table
+ * Template Name: Cities Table Template
  */
 
 get_header(); ?>
 
-<div class="container">
-    <?php
-    // Custom action hook before the table
-    do_action('before_cities_table');
-
-    // Display the search form
-    ?>
+<div class="city-search-container">
     <form id="city-search-form" method="post">
-        <input type="text" id="city-search" name="city-search" placeholder="<?php _e('Search for a city...', 'storefront-child'); ?>" />
+        <input type="text" name="search_query" id="search-query" placeholder="<?php _e('Search City...', 'storefront-child'); ?>">
         <button type="submit"><?php _e('Search', 'storefront-child'); ?></button>
     </form>
+</div>
 
-    <div id="cities-table-container">
-        <?php
-        // Fetch and display the table
-        display_cities_table();
-        ?>
-    </div>
-
+<div id="city-results">
     <?php
-    // Custom action hook after the table
-    do_action('after_cities_table');
+    if (isset($_POST['search_query'])) {
+        // Sanitize search input
+        $search_query = sanitize_text_field($_POST['search_query']);
+        echo storefront_child_display_city_table($search_query);
+    } else {
+        echo storefront_child_display_city_table();
+    }
     ?>
 </div>
 
